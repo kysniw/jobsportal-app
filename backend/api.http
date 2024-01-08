@@ -1,0 +1,11 @@
+###Get all jobs
+GET http://127.0.0.1:8000/api/jobs
+
+###Get job by id
+GET http://127.0.0.1:8000/api/jobs/1/
+
+###Get jobs using filters
+GET http://127.0.0.1:8000/api/jobs/?max_salary=6000
+
+###Get jobs using filtered with title
+GET http://127.0.0.1:8000/api/jobs/?location=Szczecin
