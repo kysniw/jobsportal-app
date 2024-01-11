@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status, parsers, renderers
 from .serializers import UserSerializer, UserResumeSerializer
 from .validators import validate_resume_file
+from job.serializers import JobCandidateSerializer, JobSerializer
+from job.models import JobCandidate, Job
 
 from drf_spectacular.utils import extend_schema
 # Create your views here.
@@ -62,3 +64,26 @@ class UserResumeView(generics.UpdateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
+
+
+class UserAppliesView(generics.ListAPIView):
+    serializer_class = JobCandidateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        my_applies = JobCandidate.objects.filter(user=self.request.user)
+        serializer = self.serializer_class(my_applies, many=True)
+
+        return Response(serializer.data)
+
+
+class UserJobsView(generics.ListAPIView):
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+
+        my_jobs = Job.objects.filter(user=self.request.user)
+        serializer = self.serializer_class(my_jobs, many=True)
+
+        return Response(serializer.data)
