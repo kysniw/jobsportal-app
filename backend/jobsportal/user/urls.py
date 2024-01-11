@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import RegisterUserView, ProfileView, UserResumeView
+from . import views
 
 urlpatterns = [
-    path('', RegisterUserView.as_view(), name='register'),
-    path('me/', ProfileView.as_view(), name='me'),
-    path('me/resume', UserResumeView.as_view(), name='resume'),
+    path('', views.RegisterUserView.as_view(), name='register'),
+    path('me/', views.ProfileView.as_view(), name='me'),
+    path('me/resume', views.UserResumeView.as_view(), name='my_resume'),
+    path('me/applies', views.UserAppliesView.as_view(), name='my_applies'),
+    path('me/jobs', views.UserJobsView.as_view(), name='my_jobs')
 ]

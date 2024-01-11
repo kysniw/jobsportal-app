@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Job
+from .models import Job, JobCandidate
 
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,6 +9,12 @@ class JobSerializer(serializers.ModelSerializer):
                     'company', 'point', 'lastDate', 'createdAt']
         read_only_fields = ['id']
 
+class JobCandidateSerializer(serializers.ModelSerializer):
+    job = JobSerializer()
+    class Meta:
+        model = JobCandidate
+        fields = ['id', 'user', 'resume', 'applied_at', 'job']
+        read_only_fields = ['id']
 
 class JobStatsSerializer(serializers.Serializer):
     jobs_count = serializers.IntegerField()
