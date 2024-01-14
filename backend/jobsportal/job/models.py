@@ -67,9 +67,9 @@ class Job(models.Model):
     positions = models.IntegerField(default=1)
     company = models.CharField(max_length=100, null=True)
     point = gis_models.PointField(default=Point(0.0, 0.0))
-    lastDate = models.DateTimeField(default=last_date)
+    last_date = models.DateTimeField(default=last_date)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    createdAt = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         url = 'https://geocode.search.hereapi.com/v1/geocode'
