@@ -6,7 +6,7 @@ class JobSerializer(serializers.ModelSerializer):
         model = Job
         fields = ['id', 'title', 'description', 'email', 'address', 'job_type',
                     'education', 'industry', 'experience', 'salary', 'positions',
-                    'company', 'point', 'lastDate', 'createdAt']
+                    'company', 'point', 'last_date', 'created_at']
         read_only_fields = ['id']
 
 class JobCandidateSerializer(serializers.ModelSerializer):
