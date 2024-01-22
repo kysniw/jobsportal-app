@@ -1,20 +1,24 @@
+import { JobType } from "@/app/lib/types";
 import {
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Divider,
-  Link,
-  cn,
 } from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
 
-const JobCard = ({ job }: any) => {
+const JobCard = ({ job }: { job: JobType }) => {
+  const jobDesc =
+    job.description.length > 200
+      ? job.description.slice(0, 200) + "..."
+      : job.description;
   return (
     <Link
       href={`/job/${job.id}`}
       className="block scale-100 hover:scale-105 transition-transform
-      max-w-[40rem] mx-auto my-3"
+      max-w-[40rem] mx-auto mb-3"
     >
       <Card>
         <CardHeader className="block">
@@ -23,7 +27,7 @@ const JobCard = ({ job }: any) => {
         </CardHeader>
         <Divider />
         <CardBody>
-          <p>{job.description}</p>
+          <p>{jobDesc}</p>
         </CardBody>
         <Divider />
         <CardFooter className="text-danger">{job.salary}</CardFooter>
