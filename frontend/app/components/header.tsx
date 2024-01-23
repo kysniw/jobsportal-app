@@ -47,21 +47,19 @@ const Header = () => {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page" color="danger">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
+        <Input
+          classNames={{
+            base: "sm:max-w-[10rem] md:max-w-full h-10",
+            mainWrapper: "h-full",
+            input: "text-small",
+            inputWrapper:
+              "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+          }}
+          placeholder="Type to search..."
+          size="md"
+          type="search"
+          className="w-80"
+        />
       </NavbarContent>
       {user && (
         <NavbarContent
@@ -69,18 +67,6 @@ const Header = () => {
           className="items-center animate-appearance-in"
           justify="end"
         >
-          <Input
-            classNames={{
-              base: "max-w-full sm:max-w-[10rem] h-10",
-              mainWrapper: "h-full",
-              input: "text-small",
-              inputWrapper:
-                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-            }}
-            placeholder="Type to search..."
-            size="sm"
-            type="search"
-          />
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
@@ -96,20 +82,24 @@ const Header = () => {
                 aria-label="Profile Email"
                 key="profile"
                 className="h-14 gap-2"
+                as={Link}
+                href="/user"
               >
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user.email}</p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
-              <DropdownItem key="team_settings">Team Settings</DropdownItem>
-              <DropdownItem key="analytics">Analytics</DropdownItem>
-              <DropdownItem key="system">System</DropdownItem>
-              <DropdownItem key="configurations">Configurations</DropdownItem>
-              <DropdownItem key="help_and_feedback">
-                Help & Feedback
+              <DropdownItem key="settings" aria-label="settings">
+                <p>My Settings</p>
               </DropdownItem>
-              <DropdownItem key="logout" color="danger" onClick={handleLogout}>
-                Log Out
+              <DropdownItem
+                key="logout"
+                color="danger"
+                textValue="Log out"
+                onClick={handleLogout}
+              >
+                <p className="font-semibold text-danger" aria-label="logout">
+                  Log Out
+                </p>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
