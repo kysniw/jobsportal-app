@@ -1,14 +1,10 @@
-"use client";
-
-import { useAuthContext } from "@/app/context/auth-context";
+import { UserType } from "@/app/lib/types";
 import {
   Button,
   Card,
   CardBody,
   CardFooter,
-  CardHeader,
   Divider,
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -16,11 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
 
-const UserCard = () => {
-  const { user } = useAuthContext();
-
+const UserCard = ({ user }: { user: UserType }) => {
   const profileData = [
     {
       rowVar: "First name",
@@ -65,14 +60,23 @@ const UserCard = () => {
           </TableBody>
         </Table>
       </CardBody>
-      <CardFooter className="flex-col gap-4 md:flex-row flex justify-evenly wrap">
-        <Button color="danger" className="font-semibold md:text-md">
+      <Divider />
+      <CardFooter className="flex-col gap-4 md:gap-2 md:flex-row flex justify-evenly wrap">
+        <Button
+          as={Link}
+          href="/user/edit"
+          color="danger"
+          variant="flat"
+          fullWidth
+          className="font-bold md:text-medium"
+        >
           Edit
         </Button>
         <Button
           color="danger"
-          variant="bordered"
-          className="font-semibold md:text-md"
+          variant="flat"
+          fullWidth
+          className="font-bold md:text-medium"
         >
           Change Password
         </Button>

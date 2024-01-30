@@ -3,9 +3,9 @@
 import { Button, Input } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { LoginState, loginUser } from "@/app/lib/actions";
+import { LoginUserState, loginUser } from "@/app/lib/users/actions";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "../context/auth-context";
+import { useAuthContext } from "../../context/auth-context";
 
 const LoginForm = () => {
   const [loginInput, setLoginInput] = useState("");
@@ -16,7 +16,7 @@ const LoginForm = () => {
 
   const initialState = { message: null, errors: {}, user: null };
 
-  const [state, dispatch] = useFormState<LoginState, FormData>(
+  const [state, dispatch] = useFormState<LoginUserState, FormData>(
     loginUser,
     initialState
   );

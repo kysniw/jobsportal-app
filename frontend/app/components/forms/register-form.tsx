@@ -3,7 +3,7 @@
 import { Button, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
-import { RegisterState, createUser } from "../lib/actions";
+import { RegisterUserState, createUser } from "../../lib/users/actions";
 
 const RegisterForm = () => {
   const [firstNameInput, setFirstNameInput] = useState("");
@@ -14,7 +14,7 @@ const RegisterForm = () => {
 
   const initialState = { errors: {}, message: null };
 
-  const [state, dispatch] = useFormState<RegisterState, FormData>(
+  const [state, dispatch] = useFormState<RegisterUserState, FormData>(
     createUser,
     initialState
   );

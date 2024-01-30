@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { AuthContextType, UserResponse, UserType } from "../lib/types";
-import { getUser, logoutUser } from "../lib/actions";
+import { getUser, logoutUser } from "../lib/users/actions";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

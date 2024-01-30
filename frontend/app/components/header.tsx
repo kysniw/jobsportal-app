@@ -88,8 +88,8 @@ const Header = () => {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user.email}</p>
               </DropdownItem>
-              <DropdownItem key="settings" aria-label="settings">
-                <p>My Settings</p>
+              <DropdownItem key="offers" aria-label="my offers">
+                <p>My offers</p>
               </DropdownItem>
               <DropdownItem
                 key="logout"

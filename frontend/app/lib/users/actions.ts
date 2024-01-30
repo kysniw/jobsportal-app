@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { cookies } from "next/headers";
-import { UserResponse, UserType } from "./types";
+import { UserResponse, UserType } from "../types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -20,7 +20,7 @@ const UserSchema = z.object({
   lastname: z.string(),
 });
 
-export type LoginState = {
+export type LoginUserState = {
   errors?: {
     username?: string[];
     password?: string[];
@@ -29,7 +29,17 @@ export type LoginState = {
   user?: UserType | null;
 };
 
-export type RegisterState = {
+export type UpdateUserState = {
+  errors?: {
+    username?: string[];
+    firstname?: string[];
+    lastname?: string[];
+  };
+  message?: string | null;
+  user?: UserType | null;
+};
+
+export type RegisterUserState = {
   errors?: {
     username?: string[];
     firstname?: string[];
@@ -40,13 +50,19 @@ export type RegisterState = {
   message?: string | null;
 };
 
+export type ResumeUploadState = {
+  errors?: {
+    resume?: string;
+  };
+};
+
 const LoginUser = UserSchema.omit({
   id: true,
   firstname: true,
   lastname: true,
 });
 
-export async function loginUser(prevState: LoginState, formData: FormData) {
+export async function loginUser(prevState: LoginUserState, formData: FormData) {
   const validatedFields = LoginUser.safeParse({
     username: formData.get("email"),
     password: formData.get("password"),
@@ -114,7 +130,10 @@ export async function loginUser(prevState: LoginState, formData: FormData) {
 
 const RegisterUser = UserSchema.omit({ id: true });
 
-export async function createUser(prevState: RegisterState, formData: FormData) {
+export async function createUser(
+  prevState: RegisterUserState,
+  formData: FormData
+) {
   const validatedFields = RegisterUser.safeParse({
     username: formData.get("email"),
     firstname: formData.get("first_name"),
@@ -166,6 +185,106 @@ export async function createUser(prevState: RegisterState, formData: FormData) {
 
   revalidatePath("/auth/login");
   redirect("/auth/login");
+}
+
+const UpdateUser = UserSchema.omit({
+  id: true,
+  password: true,
+});
+
+export async function updateUser(
+  prevState: UpdateUserState,
+  formData: FormData
+) {
+  const validatedFields = UpdateUser.safeParse({
+    username: formData.get("email"),
+    firstname: formData.get("first_name"),
+    lastname: formData.get("last_name"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "One or more fields are invalid!",
+    };
+  }
+
+  const token = cookies().get("Token")?.value;
+
+  try {
+    const res = await fetch(`${process.env.APP_KEY}/users/me/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        first_name: validatedFields.data.firstname,
+        last_name: validatedFields.data.lastname,
+        email: validatedFields.data.username,
+      }),
+    });
+
+    if (res.status !== 200) {
+      console.log(res);
+      return {
+        message: "Invalid form data!",
+      };
+    } else {
+      const resData = (await res.json()) as UserType;
+
+      return {
+        user: resData,
+      };
+    }
+  } catch (error) {
+    // console.log("Backend error: ", error);
+    return {
+      message: `Ups! Something went wrong with backend server! ${error}`,
+    };
+  }
+}
+
+export async function uploadResume(
+  prevState: ResumeUploadState,
+  formData: FormData
+) {
+  const token = cookies().get("Token")?.value;
+
+  const resume = formData.get("resume") as File;
+
+  if (!resume || resume.type !== "application/pdf") {
+    return {
+      errors: {
+        resume: "Invalid file",
+      },
+    };
+  }
+
+  console.log(formData);
+
+  const reqFormData = new FormData();
+  reqFormData.append("resume", resume);
+
+  console.log(reqFormData);
+
+  const res = await fetch(`${process.env.APP_KEY}/users/me/resume`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: reqFormData,
+  });
+
+  const resDetail = await res.json();
+
+  console.log(resDetail);
+
+  return {
+    errors: {
+      resume: "YEEES",
+    },
+  };
 }
 
 export async function getUser() {
