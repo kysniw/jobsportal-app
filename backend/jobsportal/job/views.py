@@ -18,7 +18,6 @@ class JobViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Job.objects.all()
 
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
