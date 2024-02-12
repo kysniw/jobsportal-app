@@ -6,8 +6,8 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const filters = [
   {
-    name: "job_types",
-    label: "Job types",
+    name: "job_type",
+    label: "Job type",
     checkboxes: ["Permanent", "Temporary", "Intership"],
   },
   {
@@ -59,7 +59,7 @@ const Filters = () => {
   };
 
   return (
-    <div className="sticky hidden lg:flex flex-col gap-4 top-20 mr-3">
+    <div className="flex flex-col flex-wrap gap-4 mr-3 z-10">
       {filters.map((filter) => {
         // console.log(filter.name.at(0)?.toUpperCase());
         return (

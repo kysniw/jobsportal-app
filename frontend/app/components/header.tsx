@@ -20,6 +20,7 @@ import {
 
 import Link from "next/link";
 import { useAuthContext } from "../context/auth-context";
+import Filters from "./filters";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -36,7 +37,7 @@ const Header = () => {
       <NavbarContent justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          className="lg:hidden"
         />
         <NavbarBrand>
           <Link href="/" color="foreground">
@@ -49,7 +50,7 @@ const Header = () => {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <Input
           classNames={{
-            base: "sm:max-w-[10rem] md:max-w-full h-10",
+            base: "sm:max-w-full h-10",
             mainWrapper: "h-full",
             input: "text-small",
             inputWrapper:
@@ -63,7 +64,6 @@ const Header = () => {
       </NavbarContent>
       {user && (
         <NavbarContent
-          as="div"
           className="items-center animate-appearance-in"
           justify="end"
         >
@@ -131,20 +131,23 @@ const Header = () => {
         </NavbarContent>
       )}
       <NavbarMenu>
-        <NavbarMenuItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
+        <NavbarMenuItem className="sm:hidden max-w-96 w-full mx-auto">
+          <Input
+            classNames={{
+              base: "max-w-full h-10",
+              mainWrapper: "h-full",
+              input: "text-small",
+              inputWrapper:
+                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+            }}
+            placeholder="Type to search..."
+            size="md"
+            type="search"
+            // className="w-80"
+          />
         </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link href="#" aria-current="page" color="danger">
-            Customers
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
+        <NavbarMenuItem className="max-w-96 w-full mx-auto">
+          <Filters />
         </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
