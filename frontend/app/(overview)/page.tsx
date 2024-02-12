@@ -1,12 +1,16 @@
+import { ReadonlyURLSearchParams } from "next/navigation";
 import Filters from "../components/filters";
 import JobsList from "../components/ui/jobs-list";
-import { Card } from "@nextui-org/react";
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams: ReadonlyURLSearchParams;
+}) {
   return (
     <div className="container px-2 flex flex-col lg:flex-row lg:justify-center gap-4 mx-auto">
       <Filters />
-      <JobsList />
+      <JobsList searchParams={searchParams} />
     </div>
   );
 }

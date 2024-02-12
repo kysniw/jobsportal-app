@@ -38,6 +38,13 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
     addSuffix: true,
   });
 
+  const jobDescLines = job.description.split("\r\n").map((descLine) => (
+    <>
+      {descLine}
+      <br />
+    </>
+  ));
+
   const position = job.point
     .split("(")[1]
     .split(")")[0]
@@ -57,7 +64,7 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
           </div>
         </CardHeader>
         <CardBody>
-          <p>{job.description}</p>
+          <p>{jobDescLines}</p>
         </CardBody>
         <JobTable job={job} />
         <CardFooter>

@@ -12,10 +12,8 @@ import Link from "next/link";
 import React from "react";
 
 const JobCard = ({ job }: { job: JobType }) => {
-  // const jobDesc =
-  //   job.description.length > 200
-  //     ? job.description.slice(0, 200) + "..."
-  //     : job.description;
+  const jobDescLines = job.description.split("\r\n");
+
   return (
     <Card
       as={Link}
@@ -30,7 +28,14 @@ const JobCard = ({ job }: { job: JobType }) => {
       <Divider />
       <CardBody>
         <ScrollShadow className="max-h-24 overflow-hidden">
-          <p>{job.description}</p>
+          <p>
+            {jobDescLines.map((descLine) => (
+              <>
+                {descLine}
+                <br />
+              </>
+            ))}
+          </p>
         </ScrollShadow>
       </CardBody>
       <Divider />

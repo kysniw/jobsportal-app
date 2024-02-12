@@ -1,9 +1,15 @@
-import { error } from "console";
-import { JobType, JobsPromiseType, LoginFormType } from "./types";
+import { ReadonlyURLSearchParams } from "next/navigation";
+import { JobsPromiseType } from "./types";
 
-export async function getAllJobs() {
+export async function getAllJobs(searchParams: ReadonlyURLSearchParams) {
+  const url = searchParams
+    ? `${process.env.APP_KEY}/jobs/?${new URLSearchParams(
+        searchParams
+      ).toString()}`
+    : `${process.env.APP_KEY}/jobs`;
+
   try {
-    const res = await fetch(`${process.env.APP_KEY}/jobs`, {
+    const res = await fetch(url, {
       method: "GET",
       headers: {
         accept: "application/json",

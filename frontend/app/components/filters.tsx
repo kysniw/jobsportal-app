@@ -1,35 +1,95 @@
-import { Checkbox, CheckboxGroup, Divider } from "@nextui-org/react";
-import React from "react";
+"use client";
+
+import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
+import React, { ChangeEvent } from "react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+
+const filters = [
+  {
+    name: "job_types",
+    label: "Job types",
+    checkboxes: ["Permanent", "Temporary", "Intership"],
+  },
+  {
+    name: "education",
+    label: "Education",
+    checkboxes: ["Bachelors", "Masters", "Phd"],
+  },
+  {
+    name: "industry",
+    label: "Industry",
+    checkboxes: [
+      "business",
+      "Information Technology",
+      "Banking",
+      "Education/Training",
+      "Telecomunication",
+      "Others",
+    ],
+  },
+  {
+    name: "experience",
+    label: "Experience",
+    checkboxes: ["No experience", "1 year", "2 years", "3 years plus"],
+  },
+];
 
 const Filters = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
+  const { replace } = useRouter();
+
+  console.log(searchParams);
+
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    // console.log(e.target.name);
+
+    if (e.target.name) {
+      if (e.target.checked) {
+        params.append(e.target.name, e.target.value);
+      } else {
+        params.delete(e.target.name, e.target.value);
+      }
+    }
+  };
+
+  const handleFilterSubmit = () => {
+    replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
-    <div className="sticky flex flex-col gap-4 top-20">
-      <CheckboxGroup label="Job types" color="danger">
-        <Checkbox value="Permanent">Permanent</Checkbox>
-        <Checkbox value="Temporary">Temporary</Checkbox>
-        <Checkbox value="Intership">Intership</Checkbox>
-      </CheckboxGroup>
-      <CheckboxGroup label="Education" color="danger">
-        <Checkbox value="Bachelors">Bachelors</Checkbox>
-        <Checkbox value="Masters">Masters</Checkbox>
-        <Checkbox value="Phd">Phd</Checkbox>
-      </CheckboxGroup>
-      <CheckboxGroup label="Industry" color="danger">
-        <Checkbox value="business">Business</Checkbox>
-        <Checkbox value="Information Technology">
-          Information Technology
-        </Checkbox>
-        <Checkbox value="Banking">Banking</Checkbox>
-        <Checkbox value="Education/Training">Education/Training</Checkbox>
-        <Checkbox value="Telecomunication">Telecomunication</Checkbox>
-        <Checkbox value="Others">Others</Checkbox>
-      </CheckboxGroup>
-      <CheckboxGroup label="Experience" color="danger">
-        <Checkbox value="No experience">No experience</Checkbox>
-        <Checkbox value="1 year">1 year</Checkbox>
-        <Checkbox value="2 years">2 years</Checkbox>
-        <Checkbox value="3 years plus">3 years plus</Checkbox>
-      </CheckboxGroup>
+    <div className="sticky hidden lg:flex flex-col gap-4 top-20 mr-3">
+      {filters.map((filter) => {
+        // console.log(filter.name.at(0)?.toUpperCase());
+        return (
+          <CheckboxGroup
+            key={filter.name}
+            name={filter.name}
+            label={filter.label}
+            color="danger"
+            defaultValue={searchParams.getAll(filter.name)}
+          >
+            {filter.checkboxes.map((checkbox) => (
+              <Checkbox
+                key={checkbox}
+                value={checkbox}
+                onChange={(e) => handleCheck(e)}
+              >
+                {checkbox.at(0)?.toLocaleUpperCase() + checkbox.slice(1)}
+              </Checkbox>
+            ))}
+          </CheckboxGroup>
+        );
+      })}
+      <Button
+        className="text-md font-bold"
+        type="submit"
+        color="danger"
+        onClick={handleFilterSubmit}
+      >
+        Filter
+      </Button>
     </div>
   );
 };

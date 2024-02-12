@@ -2,13 +2,20 @@ import React from "react";
 import JobCard from "./job-card";
 import { getAllJobs } from "@/app/lib/data";
 import { JobType } from "@/app/lib/types";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
-const JobsList = async () => {
-  const data = await getAllJobs();
+const JobsList = async ({
+  searchParams,
+}: {
+  searchParams: ReadonlyURLSearchParams;
+}) => {
+  const data = await getAllJobs(searchParams);
 
   if (data.message) {
     return (
-      <p className=" h-full font-extrabold text-2xl mt-10">{data.message}</p>
+      <p key="message" className="h-full font-extrabold text-2xl mt-10">
+        {data.message}
+      </p>
     );
   }
 
