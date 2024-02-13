@@ -16,6 +16,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Skeleton,
 } from "@nextui-org/react";
 
 import Link from "next/link";
@@ -128,6 +129,11 @@ const Header = () => {
               Sign Up
             </Button>
           </NavbarItem>
+        </NavbarContent>
+      )}
+      {isLoading && (
+        <NavbarContent justify="end">
+          <Skeleton className="flex rounded-full w-12 h-12" />
         </NavbarContent>
       )}
       <NavbarMenu>

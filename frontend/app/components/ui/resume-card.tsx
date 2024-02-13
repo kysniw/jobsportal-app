@@ -1,7 +1,8 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import React from "react";
 import ResumeForm from "../forms/resume-form";
 import { ResumeType } from "@/app/lib/types";
+import Link from "next/link";
 
 const ResumeCard = ({ userResume }: { userResume: ResumeType }) => {
   return (
@@ -9,8 +10,16 @@ const ResumeCard = ({ userResume }: { userResume: ResumeType }) => {
       <CardHeader>Manage Resume</CardHeader>
       <CardBody>
         {userResume.resume && (
-          <div>
+          <div className="flex justify-between items-center mb-4">
             <p className="text-success">Your resume is uploaded!</p>
+            <Button
+              color="danger"
+              variant="faded"
+              as={Link}
+              href={userResume.resume}
+            >
+              Download
+            </Button>
           </div>
         )}
         <ResumeForm />

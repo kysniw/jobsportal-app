@@ -13,8 +13,13 @@ const ResumeForm = () => {
     initialState
   );
   return (
-    <form action={dispatch}>
-      <input type="file" name="resume" accept="application/pdf" />
+    <form action={dispatch} className="flex">
+      <input
+        type="file"
+        name="resume"
+        accept="application/pdf"
+        className="block w-full rounded-lg bg-danger-100 file:h-full"
+      />
       <Button type="submit" variant="faded">
         Upload
       </Button>

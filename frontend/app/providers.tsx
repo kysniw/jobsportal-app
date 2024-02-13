@@ -7,9 +7,9 @@ import AuthProvider from "./context/auth-context";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <AuthProvider>
-        <ThemeProvider defaultTheme="dark">{children}</ThemeProvider>
-      </AuthProvider>
+      <ThemeProvider defaultTheme="dark">
+        <AuthProvider>{children}</AuthProvider>
+      </ThemeProvider>
     </NextUIProvider>
   );
 }

@@ -77,6 +77,7 @@ const UserCard = ({ user }: { user: UserType }) => {
           variant="flat"
           fullWidth
           className="font-bold md:text-medium"
+          isDisabled
         >
           Change Password
         </Button>
