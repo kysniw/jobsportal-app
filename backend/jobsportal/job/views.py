@@ -31,10 +31,10 @@ class JobViewSet(viewsets.ModelViewSet):
 
         queryset = pagination.paginate_queryset(filterset.qs, request=request)
 
-        serializer = self.get_serializer(filterset.qs, many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response({
             'count': responses_count,
-            'page_size': 3,
+            'pageSize': 3,
             'jobs': serializer.data
         })
 
@@ -102,6 +102,7 @@ class JobCandidateView(generics.ListCreateAPIView):
 
 
 class JobCandidateCheckUserView(generics.RetrieveAPIView):
+    serializer_class = JobCandidateSerializer
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request, pk):
         job = get_object_or_404(Job, id=pk)

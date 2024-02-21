@@ -6,10 +6,10 @@ class JobsFilter(filters.FilterSet):
 
     keyword = filters.CharFilter(field_name='title', lookup_expr='icontains')
     location = filters.CharFilter(field_name='address', lookup_expr='icontains')
-    min_salary = filters.NumberFilter(field_name='salary' or 0, lookup_expr='gte')
-    max_salary = filters.NumberFilter(field_name='salary' or 1000000, lookup_expr='lte')
+    minSalary = filters.NumberFilter(field_name='salary' or 0, lookup_expr='gte')
+    maxSalary = filters.NumberFilter(field_name='salary' or 1000000, lookup_expr='lte')
 
     class Meta:
         model = Job
-        fields = ['job_type', 'education', 'industry', 'experience', 'min_salary', 'max_salary',
+        fields = ['jobType', 'education', 'industry', 'experience', 'minSalary', 'maxSalary',
                   'keyword', 'location']
