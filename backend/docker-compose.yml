@@ -1,5 +1,5 @@
 services:
-  dexapp:
+  jobsportal:
     build: .
     ports:
       - "8000:8000"
@@ -9,14 +9,14 @@ services:
     command: >
       sh -c "python jobsportal/manage.py runserver 0.0.0.0:8000"
     environment:
-      - DB_HOST=db-jobsportal
-      - DB_NAME=jobsportal
-      - DB_USER=jpadmin
-      - DB_PASS=123JobsPortal321!
-      - HERE_APP_ID=2MQBDIGj8mIhuGqUxEcK
-      - HERE_API_KEY=D-Uisa2XQ7s-tv1GrgqVBhq6NAygZBl4zLzj30CoIlc
-      - SECRET_KEY=django-insecure-4@yrp!w$7+6lnueg_v_vh+k)p9h@4g**x94+^t6t4nnd%kv89^
-      - DEBUG=True
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - HERE_APP_ID=${HERE_APP_ID}
+      - HERE_API_KEY=${HERE_API_KEY}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
     depends_on:
       - db-jobsportal
 
@@ -25,9 +25,9 @@ services:
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=jobsportal
-      - POSTGRES_USER=jpadmin
-      - POSTGRES_PASSWORD=123JobsPortal321!
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 volumes:
   dev-db-data:
