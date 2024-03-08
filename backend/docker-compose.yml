@@ -4,10 +4,10 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/jobsportal
+      - ./jobsportal:/jobsportal
       - dev-static-data:/vol/web
     command: >
-      sh -c "python jobsportal/manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
@@ -16,6 +16,7 @@ services:
       - HERE_APP_ID=${HERE_APP_ID}
       - HERE_API_KEY=${HERE_API_KEY}
       - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - DEBUG=${DEBUG}
     depends_on:
       - db-jobsportal

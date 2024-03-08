@@ -1,5 +1,5 @@
 services:
-  app:
+  jobsportal:
     build:
       context: .
     restart: always
@@ -13,11 +13,12 @@ services:
       - HERE_APP_ID=${HERE_APP_ID}
       - HERE_API_KEY=${HERE_API_KEY}
       - SECRET_KEY=${SECRET_KEY}
-      - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - DEBUG=${DEBUG}
     depends_on:
-      - db
+      - db-jobsportal
 
-  db:
+  db-jobsportal:
     image: postgres:alpine
     restart: always
     volumes:
@@ -32,7 +33,7 @@ services:
       context: ./proxy
     restart: always
     depends_on:
-      - app
+      - jobsportal
     ports:
       - 80:8000
     volumes:

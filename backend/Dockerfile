@@ -3,9 +3,10 @@ FROM python:3-alpine
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /jobsportal
-COPY ./jobsportal/requirements.txt /tmp/requirements.txt
+COPY ./requirements.txt /tmp/requirements.txt
 COPY ./scripts /scripts
+COPY ./jobsportal /jobsportal
+WORKDIR /jobsportal
 EXPOSE 8000
 
 RUN python -m venv /venv && \
