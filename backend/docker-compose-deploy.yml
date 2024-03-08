@@ -1,13 +1,10 @@
 services:
-  jobsportal:
-    build: .
-    ports:
-      - "8000:8000"
+  app:
+    build:
+      context: .
+    restart: always
     volumes:
-      - .:/jobsportal
-      - dev-static-data:/vol/web
-    command: >
-      sh -c "python jobsportal/manage.py runserver 0.0.0.0:8000"
+      - static-data:/vol/web
     environment:
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
@@ -16,19 +13,31 @@ services:
       - HERE_APP_ID=${HERE_APP_ID}
       - HERE_API_KEY=${HERE_API_KEY}
       - SECRET_KEY=${SECRET_KEY}
-      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
     depends_on:
-      - db-jobsportal
+      - db
 
-  db-jobsportal:
+  db:
     image: postgres:alpine
+    restart: always
     volumes:
-      - dev-db-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
 
+  proxy:
+    build:
+      context: ./proxy
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - 80:8000
+    volumes:
+      - static-data:/vol/static
+
 volumes:
-  dev-db-data:
-  dev-static-data:
+  postgres-data:
+  static-data:
