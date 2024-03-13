@@ -20,13 +20,17 @@ import {
 } from "@nextui-org/react";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuthContext } from "../context/auth-context";
 import Filters from "./filters";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
+  const pathname = usePathname();
+
   const { user, isLoading, handleLogout } = useAuthContext();
+  // console.log(user);
 
   return (
     <Navbar
@@ -48,21 +52,23 @@ const Header = () => {
           </Link>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <Input
-          classNames={{
-            base: "sm:max-w-full h-10",
-            mainWrapper: "h-full",
-            input: "text-small",
-            inputWrapper:
-              "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-          }}
-          placeholder="Type to search..."
-          size="md"
-          type="search"
-          className="w-80"
-        />
-      </NavbarContent>
+      {pathname === "/" && (
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          <Input
+            classNames={{
+              base: "sm:max-w-full h-10",
+              mainWrapper: "h-full",
+              input: "text-small",
+              inputWrapper:
+                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+            }}
+            placeholder="Type to search..."
+            size="md"
+            type="search"
+            className="w-80"
+          />
+        </NavbarContent>
+      )}
       {user && (
         <NavbarContent
           className="items-center animate-appearance-in"

@@ -1,25 +1,33 @@
-export type JobType = {
-  id: number;
+export type JobProps = {
+  id?: number;
   title: string;
   description: string;
   email: string;
   address: string;
-  job_type: string;
+  jobType: string;
   education: string;
   industry: string;
   experience: string;
   salary: number;
   positions: number;
   company: string;
-  point: string;
-  last_date: string;
-  created_at: string;
+  lat?: number;
+  lng?: number;
+  lastDate: string;
+  createdAt?: string;
 };
 
 export type JobsPromiseType = {
   count: number;
-  page_size: number;
-  jobs: JobType[];
+  pageSize: number;
+  jobs: JobProps[];
+};
+
+export type JobChoicesProps = {
+  name: "jobType" | "education" | "industry" | "experience";
+  label: string;
+  placeholder: string;
+  elements: string[];
 };
 
 export type PositionType = number[];

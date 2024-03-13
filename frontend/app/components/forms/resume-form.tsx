@@ -13,14 +13,15 @@ const ResumeForm = () => {
     initialState
   );
   return (
-    <form action={dispatch} className="flex">
+    <form action={dispatch} className="flex flex-col gap-4">
       <input
         type="file"
         name="resume"
         accept="application/pdf"
-        className="block w-full rounded-lg bg-danger-100 file:h-full"
+        className="block w-full rounded-lg file:h-full file:rounded-lg
+        file:outline-none file:border-none file:mr-4 file:p-2 file:cursor-pointer"
       />
-      <Button type="submit" variant="faded">
+      <Button type="submit" variant="faded" className="text-md font-bold">
         Upload
       </Button>
       {state.errors?.resume && (

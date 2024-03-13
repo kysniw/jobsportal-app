@@ -32,7 +32,7 @@ const UserCard = ({ user }: { user: UserType }) => {
   ];
 
   return (
-    <Card className="md:basis-96 mx-4">
+    <Card className="mb-4 mx-4 md:basis-96">
       <CardBody>
         <Table
           hideHeader

@@ -44,7 +44,7 @@ const JobTable = ({ job }: { job: JobType }) => {
         </TableRow>
         <TableRow key="5">
           <TableCell>Contract</TableCell>
-          <TableCell>{job.job_type}</TableCell>
+          <TableCell>{job.jobType}</TableCell>
         </TableRow>
         <TableRow key="6">
           <TableCell>Address</TableCell>

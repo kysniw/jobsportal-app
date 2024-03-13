@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import { LatLngExpression } from "leaflet";
 import JobTable from "@/app/components/ui/job-table";
+import { dataDistanceToNow } from "@/app/utils/common";
 
 const Map = dynamic(() => import("@/app/components/ui/map"), { ssr: false });
 
@@ -30,49 +31,29 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
 
   const job = data as JobType;
 
-  const lastDate = formatDistanceToNowStrict(new Date(job.last_date), {
-    addSuffix: true,
-  });
-
-  const createdDate = formatDistanceToNowStrict(new Date(job.created_at), {
-    addSuffix: true,
-  });
-
-  const jobDescLines = job.description.split("\r\n").map((descLine) => (
-    <>
-      {descLine}
-      <br />
-    </>
-  ));
-
-  const position = job.point
-    .split("(")[1]
-    .split(")")[0]
-    .split(" ")
-    .map((point) => parseFloat(point))
-    .reverse() as LatLngExpression;
+  const position = [job.lat, job.lng] as LatLngExpression;
 
   return (
-    <div className="mx-auto max-w-screen-lg flex flex-col lg:flex-row lg:items-start gap-4">
+    <div className="mx-auto max-w-screen-lg flex flex-col lg:flex-row lg:items-start gap-4 mb-4">
       <Card className="flex-1">
         <CardHeader className="block">
           <h1 className="text-3xl font-extrabold">{job.title}</h1>
           <div className="flex flex-wrap gap-2 mt-4">
             <Chip>{job.company}</Chip>
-            <Chip>{job.job_type}</Chip>
+            <Chip>{job.jobType}</Chip>
             <Chip>{job.email}</Chip>
           </div>
         </CardHeader>
         <CardBody>
-          <p>{jobDescLines}</p>
+          <p className="whitespace-pre-wrap">{job.description}</p>
         </CardBody>
         <JobTable job={job} />
         <CardFooter>
-          <p>{createdDate}</p>
-          <p>{lastDate}</p>
+          <p>{dataDistanceToNow(job.createdAt, true)}</p>
+          <p>{dataDistanceToNow(job.lastDate, true)}</p>
         </CardFooter>
         <Button color="danger" className="m-10 text-lg font-bold">
-          Applay
+          Apply
         </Button>
       </Card>
       <Card

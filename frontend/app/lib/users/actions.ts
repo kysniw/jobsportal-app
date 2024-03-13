@@ -183,7 +183,7 @@ export async function createUser(
     };
   }
 
-  revalidatePath("/auth/login");
+  revalidatePath("/");
   redirect("/auth/login");
 }
 
@@ -256,7 +256,7 @@ export async function uploadResume(
   if (!resume || resume.type !== "application/pdf") {
     return {
       errors: {
-        resume: "Invalid file",
+        resume: "Invalid file, must be .pdf",
       },
     };
   }
@@ -278,11 +278,12 @@ export async function uploadResume(
 
   const resDetail = await res.json();
 
-  console.log(resDetail);
+  // console.log(resDetail);
 
+  revalidatePath("/user");
   return {
     errors: {
-      resume: "YEEES",
+      resume: "Uploaded successfully",
     },
   };
 }

@@ -3,36 +3,7 @@
 import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
 import React, { ChangeEvent } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-
-const filters = [
-  {
-    name: "job_type",
-    label: "Job type",
-    checkboxes: ["Permanent", "Temporary", "Intership"],
-  },
-  {
-    name: "education",
-    label: "Education",
-    checkboxes: ["Bachelors", "Masters", "Phd"],
-  },
-  {
-    name: "industry",
-    label: "Industry",
-    checkboxes: [
-      "business",
-      "Information Technology",
-      "Banking",
-      "Education/Training",
-      "Telecomunication",
-      "Others",
-    ],
-  },
-  {
-    name: "experience",
-    label: "Experience",
-    checkboxes: ["No experience", "1 year", "2 years", "3 years plus"],
-  },
-];
+import { jobChoices } from "../lib/data";
 
 const Filters = () => {
   const searchParams = useSearchParams();
@@ -60,7 +31,7 @@ const Filters = () => {
 
   return (
     <div className="flex flex-col flex-wrap gap-4 mr-3 z-10">
-      {filters.map((filter) => {
+      {jobChoices.map((filter) => {
         // console.log(filter.name.at(0)?.toUpperCase());
         return (
           <CheckboxGroup
@@ -70,7 +41,7 @@ const Filters = () => {
             color="danger"
             defaultValue={searchParams.getAll(filter.name)}
           >
-            {filter.checkboxes.map((checkbox) => (
+            {filter.elements.map((checkbox) => (
               <Checkbox
                 key={checkbox}
                 value={checkbox}
