@@ -1,7 +1,6 @@
 import { getJobById } from "@/app/lib/data";
-import { JobType } from "@/app/lib/types";
+import { JobProps } from "@/app/lib/types";
 import React from "react";
-import { formatDistanceToNowStrict } from "date-fns";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
@@ -29,7 +28,7 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
   if (data.detail) notFound();
   console.log(data);
 
-  const job = data as JobType;
+  const job = data as JobProps;
 
   const position = [job.lat, job.lng] as LatLngExpression;
 
@@ -49,7 +48,7 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
         </CardBody>
         <JobTable job={job} />
         <CardFooter>
-          <p>{dataDistanceToNow(job.createdAt, true)}</p>
+          <p>{dataDistanceToNow(job.createdAt!, true)}</p>
           <p>{dataDistanceToNow(job.lastDate, true)}</p>
         </CardFooter>
         <Button color="danger" className="m-10 text-lg font-bold">

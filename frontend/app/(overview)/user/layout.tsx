@@ -1,5 +1,4 @@
 import { checkAuthentication } from "@/app/utils/authorization";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -8,7 +7,6 @@ async function Layout({ children }: { children: React.ReactNode }) {
 
   console.log(isAuthenticated);
   if (!isAuthenticated) {
-    revalidatePath("/auth/login");
     redirect("/auth/login");
   }
 

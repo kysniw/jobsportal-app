@@ -1,4 +1,7 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -19,15 +22,17 @@ const JobSchema = z.object({
     "Others",
   ]),
   experience: z.enum(["No experience", "1 year", "2 years", "3 years plus"]),
-  salary: z
+  salary: z.coerce
     .number()
     .min(1, { message: "Salary cannot be less than 1 and more than 1000000" })
     .max(1000000, {
       message: "Salary cannot be less than 1 and more than 1000000",
     }),
-  positions: z.number().min(1, { message: "One position is a minimum!" }),
+  positions: z.coerce
+    .number()
+    .min(1, { message: "One position is a minimum!" }),
   company: z.string().max(100),
-  lastDate: z.date(),
+  lastDate: z.coerce.date(),
   createdAt: z.date(),
 });
 
@@ -74,17 +79,36 @@ export async function createJob(prevState: CreateJobState, formData: FormData) {
     };
   }
 
+  const token = cookies().get("Token")?.value;
+
   try {
-    const response = await fetch(`${process.env.API_KEY}/jobs/`, {
+    console.log(process.env.APP_KEY);
+    const response = await fetch(`${process.env.APP_KEY}/jobs/`, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(validatedFields),
+      body: JSON.stringify({
+        title: validatedFields.data.title,
+        description: validatedFields.data.description,
+        email: validatedFields.data.email,
+        address: validatedFields.data.address,
+        jobType: validatedFields.data.jobType,
+        education: validatedFields.data.education,
+        industry: validatedFields.data.industry,
+        experience: validatedFields.data.experience,
+        salary: validatedFields.data.salary,
+        positions: validatedFields.data.positions,
+        company: validatedFields.data.company,
+        lng: 0,
+        lat: 0,
+        lastDate: validatedFields.data.lastDate,
+      }),
     });
 
     if (response.status !== 201) {
-      console.log(response.statusText);
+      console.log(response);
       return { message: "Form data is failed!" };
     }
   } catch (error) {

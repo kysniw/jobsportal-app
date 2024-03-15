@@ -125,6 +125,29 @@ const CreateJobForm = () => {
         }
         isRequired
       />
+      <Input
+        size="lg"
+        label="Company name"
+        labelPlacement="outside"
+        name="company"
+        type="text"
+        placeholder="Write company's name."
+        isInvalid={state.errors?.company ? true : false}
+        value={formData?.company}
+        onChange={handleInputChange}
+        errorMessage={
+          state.errors?.company && (
+            <>
+              {state.errors.company.map((error) => (
+                <p key={error} className="font-semibold">
+                  {error}
+                </p>
+              ))}
+            </>
+          )
+        }
+        isRequired
+      />
       <Divider className="my-4" />
       <div className="columns-1 md:columns-2">
         {jobChoices.map((choiceType) => (

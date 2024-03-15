@@ -23,6 +23,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthContext } from "../context/auth-context";
 import Filters from "./filters";
+import clsx from "clsx";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -37,7 +38,7 @@ const Header = () => {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="fixed"
+      className="fixed top-0"
     >
       <NavbarContent justify="start">
         <NavbarMenuToggle
@@ -52,8 +53,30 @@ const Header = () => {
           </Link>
         </NavbarBrand>
       </NavbarContent>
+      <NavbarContent>
+        <NavbarItem>
+          <Link
+            className={clsx("duration-300 hover:text-slate-400", {
+              "text-danger hover:text-danger": pathname === "/",
+            })}
+            href="/"
+          >
+            Home
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            className={clsx("duration-300 hover:text-slate-400", {
+              "text-danger hover:text-danger": pathname === "/job/stats",
+            })}
+            href="/job/stats"
+          >
+            Stats
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
       {pathname === "/" && (
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarContent className="hidden sm:flex gap-4">
           <Input
             classNames={{
               base: "sm:max-w-full h-10",
@@ -95,7 +118,12 @@ const Header = () => {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user.email}</p>
               </DropdownItem>
-              <DropdownItem key="offers" aria-label="my offers">
+              <DropdownItem
+                aria-label="my offers"
+                key="offers"
+                as={Link}
+                href="/user/job"
+              >
                 <p>My offers</p>
               </DropdownItem>
               <DropdownItem
