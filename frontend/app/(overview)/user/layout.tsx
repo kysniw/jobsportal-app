@@ -1,16 +1,15 @@
 import { checkAuthentication } from "@/app/utils/authorization";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
 import React from "react";
 
 async function Layout({ children }: { children: React.ReactNode }) {
   const isAuthenticated = await checkAuthentication();
 
-  console.log(isAuthenticated);
   if (!isAuthenticated) {
-    redirect("/auth/login");
+    permanentRedirect("/auth/login");
   }
 
-  return <div>{children}</div>;
+  return <div className="h-full">{children}</div>;
 }
 
 export default Layout;

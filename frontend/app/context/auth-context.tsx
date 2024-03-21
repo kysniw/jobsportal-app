@@ -16,6 +16,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const loadUserData = useCallback(async () => {
     const userRes = (await getUser()) as UserResponse;
+    console.log(userRes);
     if (userRes.user) {
       setUser(userRes.user);
       setIsLoading(false);

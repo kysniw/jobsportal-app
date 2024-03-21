@@ -3,7 +3,7 @@
 import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
 import React, { ChangeEvent } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { jobChoices } from "../lib/data";
+import { jobChoices } from "../utils/common";
 
 const Filters = () => {
   const searchParams = useSearchParams();
@@ -11,7 +11,7 @@ const Filters = () => {
   const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
 
-  console.log(searchParams);
+  // console.log(searchParams);
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.name);
@@ -26,6 +26,9 @@ const Filters = () => {
   };
 
   const handleFilterSubmit = () => {
+    if (params.has("page")) {
+      params.delete("page");
+    }
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -39,14 +42,13 @@ const Filters = () => {
             name={filter.name}
             label={filter.label}
             color="danger"
+            classNames={{
+              label: "text-xl font-semibold ",
+            }}
             defaultValue={searchParams.getAll(filter.name)}
           >
             {filter.elements.map((checkbox) => (
-              <Checkbox
-                key={checkbox}
-                value={checkbox}
-                onChange={(e) => handleCheck(e)}
-              >
+              <Checkbox key={checkbox} value={checkbox} onChange={handleCheck}>
                 {checkbox.at(0)?.toLocaleUpperCase() + checkbox.slice(1)}
               </Checkbox>
             ))}

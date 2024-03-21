@@ -1,6 +1,6 @@
 "use client";
 
-import { JobType } from "@/app/lib/types";
+import { JobProps } from "@/app/lib/types";
 import {
   Table,
   TableHeader,
@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-const JobTable = ({ job }: { job: JobType }) => {
+const JobTable = ({ job }: { job: JobProps }) => {
   return (
     <Table
       hideHeader

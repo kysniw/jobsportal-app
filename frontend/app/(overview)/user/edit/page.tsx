@@ -15,7 +15,7 @@ const EditUserPage = () => {
     <div className="w-full">
       <Card className="mx-auto mt-20 max-w-[400px]">
         <CardHeader>
-          <h1 className="text-3xl font-semibold mx-auto">Sign In</h1>
+          <h1 className="text-3xl font-semibold mx-auto">Edit profile</h1>
         </CardHeader>
         <Divider />
         <CardBody>

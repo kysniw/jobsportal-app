@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { useFormState } from "react-dom";
 import { CreateJobState, createJob } from "@/app/lib/jobs/actions";
 import { JobProps } from "@/app/lib/types";
-import { emptyJobCreateForm, jobChoices } from "@/app/lib/data";
+import { emptyJobCreateForm, jobChoices } from "@/app/utils/common";
 
 const CreateJobForm = () => {
   const [formData, setFormData] = useState<JobProps>(emptyJobCreateForm);
@@ -31,7 +31,7 @@ const CreateJobForm = () => {
   };
 
   return (
-    <form action={dispatch} className="flex flex-wrap gap-6 p-4">
+    <form action={dispatch} className="flex flex-col gap-6 p-4">
       <Input
         size="lg"
         label="Title"
@@ -174,86 +174,83 @@ const CreateJobForm = () => {
           </Select>
         ))}
       </div>
-
-      <Input
-        size="lg"
-        className=" basis-[30%]"
-        label="Salary"
-        name="salary"
-        type="number"
-        min={0}
-        max={1000000}
-        placeholder="Write possible salary"
-        isInvalid={state.errors?.salary ? true : false}
-        value={formData?.salary.toString()}
-        onChange={handleInputChange}
-        errorMessage={
-          state.errors?.salary && (
-            <>
-              {state.errors.salary.map((error) => (
-                <p key={error} className="font-semibold">
-                  {error}
-                </p>
-              ))}
-            </>
-          )
-        }
-        isRequired
-      />
-      <Input
-        size="lg"
-        className=" basis-[30%]"
-        label="Positions"
-        name="positions"
-        type="number"
-        min={0}
-        max={10000}
-        placeholder="Write how many positions will be"
-        isInvalid={state.errors?.positions ? true : false}
-        value={formData?.positions.toString()}
-        onChange={handleInputChange}
-        errorMessage={
-          state.errors?.positions && (
-            <>
-              {state.errors.positions.map((error) => (
-                <p key={error} className="font-semibold">
-                  {error}
-                </p>
-              ))}
-            </>
-          )
-        }
-        isRequired
-      />
-      <Input
-        size="lg"
-        className="basis-[30%]"
-        label="Last Date"
-        name="lastDate"
-        type="date"
-        fullWidth={false}
-        placeholder="Choose expiration date"
-        isInvalid={state.errors?.lastDate ? true : false}
-        value={formData?.lastDate.toString()}
-        onChange={handleInputChange}
-        errorMessage={
-          state.errors?.lastDate && (
-            <>
-              {state.errors.lastDate.map((error) => (
-                <p key={error} className="font-semibold">
-                  {error}
-                </p>
-              ))}
-            </>
-          )
-        }
-        isRequired
-      />
-
+      <div className="flex flex-col md:flex-row gap-4">
+        <Input
+          size="lg"
+          label="Salary"
+          name="salary"
+          type="number"
+          min={0}
+          max={1000000}
+          placeholder="Write possible salary"
+          isInvalid={state.errors?.salary ? true : false}
+          value={formData?.salary.toString()}
+          onChange={handleInputChange}
+          errorMessage={
+            state.errors?.salary && (
+              <>
+                {state.errors.salary.map((error) => (
+                  <p key={error} className="font-semibold">
+                    {error}
+                  </p>
+                ))}
+              </>
+            )
+          }
+          isRequired
+        />
+        <Input
+          size="lg"
+          label="Positions"
+          name="positions"
+          type="number"
+          min={0}
+          max={10000}
+          placeholder="Write how many positions will be"
+          isInvalid={state.errors?.positions ? true : false}
+          value={formData?.positions.toString()}
+          onChange={handleInputChange}
+          errorMessage={
+            state.errors?.positions && (
+              <>
+                {state.errors.positions.map((error) => (
+                  <p key={error} className="font-semibold">
+                    {error}
+                  </p>
+                ))}
+              </>
+            )
+          }
+          isRequired
+        />
+        <Input
+          size="lg"
+          label="Last Date"
+          name="lastDate"
+          type="date"
+          fullWidth={false}
+          placeholder="Choose expiration date"
+          isInvalid={state.errors?.lastDate ? true : false}
+          value={formData?.lastDate.toString()}
+          onChange={handleInputChange}
+          errorMessage={
+            state.errors?.lastDate && (
+              <>
+                {state.errors.lastDate.map((error) => (
+                  <p key={error} className="font-semibold">
+                    {error}
+                  </p>
+                ))}
+              </>
+            )
+          }
+          isRequired
+        />
+      </div>
       <Button
         color="danger"
         type="submit"
-        className="text-lg font-semibold self-center"
+        className="text-lg font-semibold py-6"
       >
         Add offer
       </Button>

@@ -120,3 +120,32 @@ export async function createJob(prevState: CreateJobState, formData: FormData) {
   revalidatePath("/");
   redirect("/user");
 }
+
+export async function applyToJob(id: string) {
+  if (!cookies().has("Token")) {
+    return {
+      error: "Please login first!",
+    };
+  }
+
+  try {
+    const token = cookies().get("Token")?.value;
+    const res = await fetch(`${process.env.APP_KEY}/jobs/${id}/candidate/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({}),
+    });
+
+    const candidateStatus = await res.json();
+    // console.log(candidateStatus.error);
+    return candidateStatus;
+  } catch (error) {
+    console.log("Backend error: ", error);
+    return {
+      error: "Ups! Something went wrong with backend server! Try again later.",
+    };
+  }
+}

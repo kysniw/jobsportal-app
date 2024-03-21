@@ -297,30 +297,36 @@ export async function getUser() {
   if (isLogged) {
     const token = cookieStore.get("Token")?.value;
 
-    const res = await fetch(`${process.env.APP_KEY}/users/me`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await fetch(`${process.env.APP_KEY}/users/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (res.status !== 200) {
-      cookieStore.delete("Token");
-      if (res.status === 401) {
-        return {
-          message: "Please login again.",
-        };
-      } else {
-        return {
-          message: "There is problem with authentication",
-          status: res.status,
-        };
+      if (res.status !== 200) {
+        cookieStore.delete("Token");
+        if (res.status === 401) {
+          return {
+            message: "Please login again.",
+          };
+        } else {
+          return {
+            message: "There is problem with authentication",
+            status: res.status,
+          };
+        }
       }
+
+      const resData = await res.json();
+
+      return { user: resData };
+    } catch (error) {
+      return {
+        message: `Ups! Something went wrong with backend server! ${error}`,
+      };
     }
-
-    const resData = await res.json();
-
-    return { user: resData };
   }
 
   return {

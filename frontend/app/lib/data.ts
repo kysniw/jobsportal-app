@@ -1,5 +1,8 @@
+"use server";
+
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { JobChoicesProps, JobProps, JobsPromiseType } from "./types";
+import { cookies } from "next/headers";
 
 export async function getAllJobs(searchParams: ReadonlyURLSearchParams) {
   const url = searchParams
@@ -56,51 +59,62 @@ export async function getJobById(id: string) {
   }
 }
 
-export const emptyJobCreateForm: JobProps = {
-  title: "",
-  description: "",
-  email: "",
-  company: "",
-  address: "",
-  jobType: "",
-  education: "",
-  industry: "",
-  experience: "",
-  salary: 0,
-  positions: 0,
-  lastDate: "",
-};
+export async function getUserJobs() {
+  try {
+    if (!cookies().has("Token")) {
+      return {
+        message: "Please login first!",
+      };
+    }
 
-export const jobChoices: JobChoicesProps[] = [
-  {
-    name: "jobType",
-    label: "Job type",
-    placeholder: "Choose job's contract type",
-    elements: ["Permanent", "Temporary", "Intership"],
-  },
-  {
-    name: "education",
-    label: "Education",
-    placeholder: "Choose required education level",
-    elements: ["Bachelors", "Masters", "Phd"],
-  },
-  {
-    name: "industry",
-    label: "Industry",
-    placeholder: "Choose job's discipline",
-    elements: [
-      "Business",
-      "Information Technology",
-      "Banking",
-      "Education/Training",
-      "Telecomunication",
-      "Others",
-    ],
-  },
-  {
-    name: "experience",
-    label: "Experience",
-    placeholder: "Choose required experience",
-    elements: ["No experience", "1 year", "2 years", "3 years plus"],
-  },
-];
+    const token = cookies().get("Token")?.value;
+
+    const res = await fetch(`${process.env.APP_KEY}/users/me/jobs`, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    const userJobs = await res.json();
+    return userJobs;
+  } catch (error) {
+    console.log("Backend error: ", error);
+    return {
+      message:
+        "Ups! Something went wrong with backend server! Try again later.",
+    };
+  }
+}
+
+export async function getUserApplications() {
+  try {
+    if (!cookies().has("Token")) {
+      return {
+        message: "Please login first!",
+      };
+    }
+
+    const token = cookies().get("Token")?.value;
+
+    const res = await fetch(`${process.env.APP_KEY}/users/me/applies`, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    const userApplies = await res.json();
+    return userApplies;
+  } catch (error) {
+    console.log("Backend error: ", error);
+    return {
+      message:
+        "Ups! Something went wrong with backend server! Try again later.",
+    };
+  }
+}

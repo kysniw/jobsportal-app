@@ -4,7 +4,6 @@ import React from "react";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -14,6 +13,7 @@ import {
 import { LatLngExpression } from "leaflet";
 import JobTable from "@/app/components/ui/job-table";
 import { dataDistanceToNow } from "@/app/utils/common";
+import ApplyComponent from "@/app/components/apply-component";
 
 const Map = dynamic(() => import("@/app/components/ui/map"), { ssr: false });
 
@@ -26,14 +26,13 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
     );
 
   if (data.detail) notFound();
-  console.log(data);
+  // console.log(data);
 
   const job = data as JobProps;
-
   const position = [job.lat, job.lng] as LatLngExpression;
 
   return (
-    <div className="mx-auto max-w-screen-lg flex flex-col lg:flex-row lg:items-start gap-4 mb-4">
+    <div className="min-h-full mx-auto max-w-screen-lg flex flex-col lg:flex-row lg:items-start gap-4">
       <Card className="flex-1">
         <CardHeader className="block">
           <h1 className="text-3xl font-extrabold">{job.title}</h1>
@@ -44,16 +43,14 @@ const JobPage = async ({ params }: { params: { id: string } }) => {
           </div>
         </CardHeader>
         <CardBody>
-          <p className="whitespace-pre-wrap">{job.description}</p>
+          <p className="whitespace-pre-wrap p-4">{job.description}</p>
         </CardBody>
         <JobTable job={job} />
         <CardFooter>
           <p>{dataDistanceToNow(job.createdAt!, true)}</p>
           <p>{dataDistanceToNow(job.lastDate, true)}</p>
         </CardFooter>
-        <Button color="danger" className="m-10 text-lg font-bold">
-          Apply
-        </Button>
+        <ApplyComponent id={params.id} />
       </Card>
       <Card
         isFooterBlurred

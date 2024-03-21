@@ -15,7 +15,6 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Input,
   Skeleton,
 } from "@nextui-org/react";
 
@@ -24,6 +23,8 @@ import { usePathname } from "next/navigation";
 import { useAuthContext } from "../context/auth-context";
 import Filters from "./filters";
 import clsx from "clsx";
+import ThemeSwitcher from "./theme-switcher";
+import { navLinks } from "../utils/common";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -38,65 +39,42 @@ const Header = () => {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="fixed top-0"
+      className="h-20 fixed top-0"
     >
-      <NavbarContent justify="start">
+      <NavbarContent as="div" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="lg:hidden"
+          className="sm:hidden"
         />
-        <NavbarBrand>
-          <Link href="/" color="foreground">
-            <h1 className=" font-medium">
-              Jobs<span className="text-rose-500 font-extrabold">Portal</span>
-            </h1>
-          </Link>
+
+        <NavbarBrand as={Link} href="/">
+          <h1 className="font-medium">
+            Jobs<span className="text-rose-500 font-extrabold">Portal</span>
+          </h1>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent>
-        <NavbarItem>
-          <Link
-            className={clsx("duration-300 hover:text-slate-400", {
-              "text-danger hover:text-danger": pathname === "/",
-            })}
-            href="/"
-          >
-            Home
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            className={clsx("duration-300 hover:text-slate-400", {
-              "text-danger hover:text-danger": pathname === "/job/stats",
-            })}
-            href="/job/stats"
-          >
-            Stats
-          </Link>
-        </NavbarItem>
+      <NavbarContent as="div" justify="center" className="hidden sm:flex">
+        {navLinks.map((link) => (
+          <NavbarItem key={link.label}>
+            <Link
+              className={clsx("duration-300 ", {
+                "text-danger-400 hover:text-danger-400 font-bold":
+                  pathname === link.href,
+                "hover:text-foreground-500": pathname !== link.href,
+              })}
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
-      {pathname === "/" && (
-        <NavbarContent className="hidden sm:flex gap-4">
-          <Input
-            classNames={{
-              base: "sm:max-w-full h-10",
-              mainWrapper: "h-full",
-              input: "text-small",
-              inputWrapper:
-                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-            }}
-            placeholder="Type to search..."
-            size="md"
-            type="search"
-            className="w-80"
-          />
-        </NavbarContent>
-      )}
-      {user && (
-        <NavbarContent
-          className="items-center animate-appearance-in"
-          justify="end"
-        >
+      <NavbarContent
+        as="div"
+        className="items-center animate-appearance-in"
+        justify="end"
+      >
+        {user && (
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
@@ -127,6 +105,14 @@ const Header = () => {
                 <p>My offers</p>
               </DropdownItem>
               <DropdownItem
+                aria-label="my applies"
+                key="applies"
+                as={Link}
+                href="/user/job"
+              >
+                <p>My applies</p>
+              </DropdownItem>
+              <DropdownItem
                 key="logout"
                 color="danger"
                 textValue="Log out"
@@ -138,57 +124,50 @@ const Header = () => {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
-        </NavbarContent>
-      )}
-      {!user && !isLoading && (
-        <NavbarContent justify="end">
-          <NavbarItem>
-            <Button
-              as={Link}
-              color="danger"
-              href="/auth/login"
-              variant="bordered"
-              className="font-semibold"
-            >
-              Sign In
-            </Button>
-          </NavbarItem>
-          <NavbarItem className="hidden lg:flex">
-            <Button
-              as={Link}
-              color="danger"
-              href="/auth/register"
-              variant="flat"
-            >
-              Sign Up
-            </Button>
-          </NavbarItem>
-        </NavbarContent>
-      )}
-      {isLoading && (
-        <NavbarContent justify="end">
-          <Skeleton className="flex rounded-full w-12 h-12" />
-        </NavbarContent>
-      )}
+        )}
+        {!user && !isLoading && (
+          <>
+            <NavbarItem>
+              <Button
+                as={Link}
+                color="danger"
+                href="/auth/login"
+                variant="ghost"
+                className="font-semibold"
+              >
+                Sign In
+              </Button>
+            </NavbarItem>
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                as={Link}
+                color="danger"
+                href="/auth/register"
+                variant="flat"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        )}
+        {isLoading && <Skeleton className="flex rounded-full w-12 h-12" />}
+        <ThemeSwitcher />
+      </NavbarContent>
       <NavbarMenu>
-        <NavbarMenuItem className="sm:hidden max-w-96 w-full mx-auto">
-          <Input
-            classNames={{
-              base: "max-w-full h-10",
-              mainWrapper: "h-full",
-              input: "text-small",
-              inputWrapper:
-                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-            }}
-            placeholder="Type to search..."
-            size="md"
-            type="search"
-            // className="w-80"
-          />
-        </NavbarMenuItem>
-        <NavbarMenuItem className="max-w-96 w-full mx-auto">
-          <Filters />
-        </NavbarMenuItem>
+        {navLinks.map((link) => (
+          <NavbarMenuItem key={link.label}>
+            <Link
+              className={clsx("block text-center py-4 w-full duration-300", {
+                "text-danger-400 hover:text-danger-400 font-bold":
+                  pathname === link.href,
+                "hover:text-foreground-500": pathname !== link.href,
+              })}
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          </NavbarMenuItem>
+        ))}
       </NavbarMenu>
     </Navbar>
   );

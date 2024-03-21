@@ -1,13 +1,15 @@
 import React from "react";
 import JobCard from "./job-card";
 import { getAllJobs } from "@/app/lib/data";
-import { JobType } from "@/app/lib/types";
+import { JobProps } from "@/app/lib/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
+import JobsPagination from "./pagination";
 
 const JobsList = async ({
   searchParams,
 }: {
   searchParams: ReadonlyURLSearchParams;
+  isCompact?: boolean;
 }) => {
   const data = await getAllJobs(searchParams);
 
@@ -17,13 +19,17 @@ const JobsList = async ({
     );
   }
 
-  const renderedJobs = data.jobsProps?.jobs.map((job: JobType) => {
+  const totalPageCount = Math.ceil(
+    data.jobsProps!.count / data.jobsProps!.pageSize
+  );
+
+  const renderedJobs = data.jobsProps?.jobs.map((job: JobProps) => {
     // console.log(job);
     return <JobCard key={job.id} job={job} />;
   });
 
   return (
-    <div>
+    <div className="min-h-full flex flex-col items-center">
       {data.jobsProps?.jobs.length !== 0 ? (
         renderedJobs
       ) : (
@@ -31,6 +37,8 @@ const JobsList = async ({
           There is no offer for you
         </p>
       )}
+
+      <JobsPagination totalNumber={totalPageCount} />
     </div>
   );
 };

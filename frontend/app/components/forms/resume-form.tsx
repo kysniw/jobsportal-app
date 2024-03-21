@@ -18,7 +18,7 @@ const ResumeForm = () => {
         type="file"
         name="resume"
         accept="application/pdf"
-        className="block w-full rounded-lg file:h-full file:rounded-lg
+        className="block w-full rounded-lg file:h-full file:rounded-lg file:bg-foreground-100
         file:outline-none file:border-none file:mr-4 file:p-2 file:cursor-pointer"
       />
       <Button type="submit" variant="faded" className="text-md font-bold">
