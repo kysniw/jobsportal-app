@@ -13,8 +13,8 @@ import { FaHome } from "react-icons/fa";
 
 const RegiserPage = () => {
   return (
-    <div className="w-full">
-      <Card className="mx-auto mt-20 max-w-[400px]">
+    <div className="w-full min-h-screen h-full flex justify-center items-center">
+      <Card className="max-w-[400px] w-full mx-4">
         <CardHeader className="relative">
           <Button
             radius="none"

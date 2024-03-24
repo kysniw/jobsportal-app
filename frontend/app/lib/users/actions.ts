@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { cookies } from "next/headers";
-import { UserResponse, UserType } from "../types";
+import { ResumeType, UserResponse, UserType } from "../types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -51,9 +51,9 @@ export type RegisterUserState = {
 };
 
 export type ResumeUploadState = {
-  errors?: {
-    resume?: string;
-  };
+  error?: string | null;
+  message?: string | null;
+  resume?: ResumeType | null;
 };
 
 const LoginUser = UserSchema.omit({
@@ -84,7 +84,6 @@ export async function loginUser(prevState: LoginUserState, formData: FormData) {
       body: JSON.stringify(validatedFields.data),
     });
     if (res.status !== 200) {
-      console.log(res);
       return {
         message: "Invalid email or password!",
       };
@@ -93,7 +92,6 @@ export async function loginUser(prevState: LoginUserState, formData: FormData) {
     const response = await res.json();
 
     if (response.access && response.refresh) {
-      console.log(response);
       cookies().set({
         name: "Token",
         value: response.access,
@@ -171,7 +169,6 @@ export async function createUser(
     });
 
     if (res.status !== 201) {
-      console.log(res);
       return {
         message: "Invalid form data!",
       };
@@ -226,7 +223,6 @@ export async function updateUser(
     });
 
     if (res.status !== 200) {
-      console.log(res);
       return {
         message: "Invalid form data!",
       };
@@ -245,28 +241,19 @@ export async function updateUser(
   }
 }
 
-export async function uploadResume(
-  prevState: ResumeUploadState,
-  formData: FormData
-) {
+export async function uploadResume(formData: FormData) {
   const token = cookies().get("Token")?.value;
 
   const resume = formData.get("resume") as File;
 
   if (!resume || resume.type !== "application/pdf") {
     return {
-      errors: {
-        resume: "Invalid file, must be .pdf",
-      },
+      error: "Invalid file, must be .pdf",
     };
   }
 
-  console.log(formData);
-
   const reqFormData = new FormData();
   reqFormData.append("resume", resume);
-
-  console.log(reqFormData);
 
   const res = await fetch(`${process.env.APP_KEY}/users/me/resume`, {
     method: "PUT",
@@ -276,23 +263,25 @@ export async function uploadResume(
     body: reqFormData,
   });
 
-  const resDetail = await res.json();
+  if (res.status === 201) {
+    const resumeRes = (await res.json()) as ResumeType;
+    return {
+      resume: resumeRes,
+      message: "Uploaded successfully!",
+    };
+  } else
+    return {
+      error: res.statusText,
+    };
+
+  // const resDetail = await res.json();
 
   // console.log(resDetail);
-
-  revalidatePath("/user");
-  return {
-    errors: {
-      resume: "Uploaded successfully",
-    },
-  };
 }
 
 export async function getUser() {
   const cookieStore = cookies();
   const isLogged = cookieStore.has("Token");
-  console.log(isLogged);
-  console.log(cookieStore.get("Token"));
 
   if (isLogged) {
     const token = cookieStore.get("Token")?.value;

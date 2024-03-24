@@ -47,7 +47,13 @@ const FiltersModal = () => {
 
   return (
     <>
-      <Button isIconOnly color="danger" variant="ghost" onPress={onOpen}>
+      <Button
+        isIconOnly
+        size="lg"
+        color="danger"
+        variant="ghost"
+        onPress={onOpen}
+      >
         <FaFilter />
       </Button>
       <Modal

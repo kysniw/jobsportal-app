@@ -13,8 +13,8 @@ import Link from "next/link";
 
 const LoginPage = () => {
   return (
-    <div className="w-full">
-      <Card className="mx-auto mt-20 max-w-[400px]">
+    <div className="w-full min-h-screen h-full flex justify-center items-center">
+      <Card className="mx-4 max-w-[400px] w-full">
         <CardHeader className="relative">
           <Button
             radius="none"

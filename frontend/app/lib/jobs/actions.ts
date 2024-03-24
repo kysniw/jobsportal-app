@@ -82,7 +82,6 @@ export async function createJob(prevState: CreateJobState, formData: FormData) {
   const token = cookies().get("Token")?.value;
 
   try {
-    console.log(process.env.APP_KEY);
     const response = await fetch(`${process.env.APP_KEY}/jobs/`, {
       method: "POST",
       headers: {
@@ -108,11 +107,9 @@ export async function createJob(prevState: CreateJobState, formData: FormData) {
     });
 
     if (response.status !== 201) {
-      console.log(response);
       return { message: "Form data is failed!" };
     }
   } catch (error) {
-    // console.log("Backend error: ", error);
     return {
       message: `Ups! Something went wrong with backend server! ${error}`,
     };
@@ -140,10 +137,9 @@ export async function applyToJob(id: string) {
     });
 
     const candidateStatus = await res.json();
-    // console.log(candidateStatus.error);
     return candidateStatus;
   } catch (error) {
-    console.log("Backend error: ", error);
+    // console.log("Backend error: ", error);
     return {
       error: "Ups! Something went wrong with backend server! Try again later.",
     };
