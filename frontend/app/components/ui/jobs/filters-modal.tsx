@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import React, { ChangeEvent } from "react";
 import { FaFilter } from "react-icons/fa";
-import { jobChoices } from "../utils/common";
+import { jobChoices } from "../../../utils/common";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const FiltersModal = () => {
@@ -47,7 +47,13 @@ const FiltersModal = () => {
 
   return (
     <>
-      <Button isIconOnly color="danger" variant="ghost" onPress={onOpen}>
+      <Button
+        isIconOnly
+        size="lg"
+        color="danger"
+        variant="ghost"
+        onPress={onOpen}
+      >
         <FaFilter />
       </Button>
       <Modal

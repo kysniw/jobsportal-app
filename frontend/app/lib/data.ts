@@ -118,3 +118,23 @@ export async function getUserApplications() {
     };
   }
 }
+
+export async function getJobsStats(topic: string) {
+  try {
+    const res = await fetch(`${process.env.APP_KEY}/jobs/stats/${topic}/`, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    const jobsStats = await res.json();
+    return jobsStats;
+  } catch (error) {
+    console.log("Backend error: ", error);
+    return {
+      message:
+        "Ups! Something went wrong with backend server! Try again later.",
+    };
+  }
+}

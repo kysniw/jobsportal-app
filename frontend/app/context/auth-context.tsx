@@ -16,14 +16,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const loadUserData = useCallback(async () => {
     const userRes = (await getUser()) as UserResponse;
-    console.log(userRes);
     if (userRes.user) {
       setUser(userRes.user);
-      setIsLoading(false);
     } else {
       setUser(null);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -40,7 +38,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const res = await logoutUser();
     if (res.success) {
       setUser(null);
-      // alert(res.message);
     } else {
       alert(res.error);
     }
