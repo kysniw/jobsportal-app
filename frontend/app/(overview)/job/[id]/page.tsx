@@ -11,11 +11,13 @@ import {
   Chip,
 } from "@nextui-org/react";
 import { LatLngExpression } from "leaflet";
-import JobTable from "@/app/components/ui/job-table";
+import JobTable from "@/app/components/ui/jobs/job-table";
 import { dataDistanceToNow } from "@/app/utils/common";
-import ApplyComponent from "@/app/components/apply-component";
+import ApplyComponent from "@/app/components/ui/jobs/apply-component";
 
-const Map = dynamic(() => import("@/app/components/ui/map"), { ssr: false });
+const Map = dynamic(() => import("@/app/components/ui/jobs/map"), {
+  ssr: false,
+});
 
 const JobPage = async ({ params }: { params: { id: string } }) => {
   const data = await getJobById(params.id);

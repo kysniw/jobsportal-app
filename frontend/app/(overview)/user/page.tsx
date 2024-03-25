@@ -1,8 +1,8 @@
 "use client";
 
-import ResumeCard from "@/app/components/ui/resume-card";
+import ResumeCard from "@/app/components/ui/user/resume-card";
 import { UserPageSkeleton } from "@/app/components/ui/skeletons";
-import UserCard from "@/app/components/ui/user-card";
+import UserCard from "@/app/components/ui/user/user-card";
 import { useAuthContext } from "@/app/context/auth-context";
 import { Button, Card, CardBody, User } from "@nextui-org/react";
 
@@ -16,7 +16,7 @@ const UserPage = () => {
     <div className="flex flex-col items-center">
       {user && (
         <>
-          <h1 className="text-2xl font-semibold">Profile</h1>
+          <h1 className="text-2xl font-semibold mb-1">Profile</h1>
           <Card className="max-w-[30rem] w-full">
             <CardBody>
               <p className="m-2 text-foreground-400">

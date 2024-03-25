@@ -3,7 +3,7 @@ import JobCard from "./job-card";
 import { getAllJobs } from "@/app/lib/data";
 import { JobProps } from "@/app/lib/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
-import JobsPagination from "./pagination";
+import JobsPagination from "../pagination";
 
 const JobsList = async ({
   searchParams,

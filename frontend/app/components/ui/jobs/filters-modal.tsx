@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import React, { ChangeEvent } from "react";
 import { FaFilter } from "react-icons/fa";
-import { jobChoices } from "../utils/common";
+import { jobChoices } from "../../../utils/common";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const FiltersModal = () => {

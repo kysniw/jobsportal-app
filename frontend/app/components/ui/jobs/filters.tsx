@@ -3,7 +3,7 @@
 import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
 import React, { ChangeEvent } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { jobChoices } from "../utils/common";
+import { jobChoices } from "../../../utils/common";
 
 const Filters = () => {
   const searchParams = useSearchParams();
@@ -11,11 +11,7 @@ const Filters = () => {
   const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
 
-  // console.log(searchParams);
-
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.name);
-
     if (e.target.name) {
       if (e.target.checked) {
         params.append(e.target.name, e.target.value);
@@ -35,7 +31,6 @@ const Filters = () => {
   return (
     <div className="flex flex-col flex-wrap gap-4 mr-3 z-10">
       {jobChoices.map((filter) => {
-        // console.log(filter.name.at(0)?.toUpperCase());
         return (
           <CheckboxGroup
             key={filter.name}

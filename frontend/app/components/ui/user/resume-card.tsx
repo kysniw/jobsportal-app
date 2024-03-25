@@ -2,7 +2,7 @@
 
 import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import React, { useState } from "react";
-import ResumeForm from "../forms/resume-form";
+import ResumeForm from "../../forms/resume-form";
 import { ResumeType } from "@/app/lib/types";
 import { FaDownload, FaX } from "react-icons/fa6";
 import Link from "next/link";

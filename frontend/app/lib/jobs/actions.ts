@@ -145,3 +145,36 @@ export async function applyToJob(id: string) {
     };
   }
 }
+
+export async function deleteJob(id: string) {
+  if (!cookies().has("Token")) {
+    return {
+      error: "Please login first!",
+    };
+  }
+
+  try {
+    const token = cookies().get("Token")?.value;
+    const res = await fetch(`${process.env.APP_KEY}/jobs/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.status !== 204) {
+      return {
+        error: res.statusText,
+      };
+    }
+
+    revalidatePath("/user/job");
+    redirect("/user/job");
+  } catch (error) {
+    // console.log("Backend error: ", error);
+    return {
+      error: "Ups! Something went wrong with backend server! Try again later.",
+    };
+  }
+}

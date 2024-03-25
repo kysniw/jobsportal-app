@@ -1,5 +1,9 @@
+"use client";
+
+import { deleteJob } from "@/app/lib/jobs/actions";
 import { JobProps } from "@/app/lib/types";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -9,8 +13,9 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa6";
 
 const JobCard = ({
   job,
@@ -19,22 +24,47 @@ const JobCard = ({
   job: JobProps;
   isCompact?: boolean;
 }) => {
+  const [message, setMessage] = useState<string | null>(null);
+
+  const handleDeletePress = async () => {
+    const deleteRes = await deleteJob(job.id!.toString());
+    if (deleteRes.error) {
+      setMessage(deleteRes.error.toString());
+    }
+  };
+
   if (isCompact) {
     return (
       <Card className="block w-full max-w-[40rem] mx-auto mb-3">
-        <CardHeader className="flex justify-between">
+        <CardHeader className="flex flex-wrap justify-between">
           <div className="block">
             <p className="text-2xl font-bold">{job.title}</p>
             <p className="text-danger font-bold">{job.company}</p>
           </div>
-          <Link
-            href={`/job/${job.id}`}
-            className="flex self-center max-w-14 w-full aspect-square items-center
-            justify-around hover:bg-foreground-300 rounded-lg p-2 duration-300 text-foreground-700"
-          >
-            <FaChevronRight className=" h-full" />
-          </Link>
+          <div className="flex gap-2">
+            <Button
+              isIconOnly
+              onPress={handleDeletePress}
+              className="flex self-center w-14 h-full aspect-square items-center
+            justify-around bg-transparent hover:bg-foreground-100 duration-300
+            hover:text-danger text-foreground-700"
+            >
+              <FaTrash className="w-1/3 h-full" />
+            </Button>
+            <Button
+              as={Link}
+              isIconOnly
+              href={`/job/${job.id}`}
+              className="flex self-center w-14 h-full aspect-square items-center
+            justify-around bg-transparent hover:bg-foreground-300 p-2 duration-300 text-foreground-700"
+            >
+              <FaChevronRight className="h-full" />
+            </Button>
+          </div>
         </CardHeader>
+        {message && (
+          <p className="text-danger text-center font-semibold">{message}</p>
+        )}
       </Card>
     );
   }

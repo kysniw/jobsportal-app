@@ -21,7 +21,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthContext } from "../context/auth-context";
-import Filters from "./filters";
 import clsx from "clsx";
 import ThemeSwitcher from "./theme-switcher";
 import { navLinks } from "../utils/common";
@@ -78,8 +77,9 @@ const Header = () => {
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
+                as={Button}
+                isIconOnly
                 isBordered
-                as="button"
                 className="transition-transform"
                 color="danger"
                 name={user.first_name}
@@ -116,7 +116,7 @@ const Header = () => {
                 key="logout"
                 color="danger"
                 textValue="Log out"
-                onClick={handleLogout}
+                onPress={handleLogout}
               >
                 <p className="font-semibold text-danger" aria-label="logout">
                   Log Out

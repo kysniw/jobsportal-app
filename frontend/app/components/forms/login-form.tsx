@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (state.user) {
-      console.log("This is loginform user:" + state.user.email);
+      // console.log("This is loginform user:" + state.user.email);
       handleUserData(state.user);
       router.push("/");
     }

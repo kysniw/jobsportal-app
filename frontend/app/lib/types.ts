@@ -69,3 +69,11 @@ export type LoginResponseType = {
   access: string;
   detail?: string;
 };
+
+export type JobsStatsProps = {
+  jobsCount: number;
+  positionsAvg: number;
+  salaryAvg: number;
+  salaryMax: number;
+  salaryMin: number;
+};

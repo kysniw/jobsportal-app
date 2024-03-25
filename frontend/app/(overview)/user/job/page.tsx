@@ -1,4 +1,4 @@
-import JobCard from "@/app/components/ui/job-card";
+import JobCard from "@/app/components/ui/jobs/job-card";
 import { getUserJobs } from "@/app/lib/data";
 import { JobProps } from "@/app/lib/types";
 import { Button } from "@nextui-org/react";

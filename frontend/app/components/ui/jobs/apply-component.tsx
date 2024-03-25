@@ -2,7 +2,7 @@
 
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
-import { applyToJob } from "../lib/jobs/actions";
+import { applyToJob } from "../../../lib/jobs/actions";
 
 const ApplyComponent = ({ id }: { id: string }) => {
   const [message, setMessage] = useState<string>();
