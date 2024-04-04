@@ -11,7 +11,7 @@ The stack of frontend part:
 
 It's developed with `yarn` commands and Visual Studio Code.
 
-Link for frontend demo:
+Link for frontend demo:  
 [Click here](https://jobsportal-app.vercel.app/)
 
 ---
