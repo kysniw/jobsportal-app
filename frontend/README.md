@@ -1,3 +1,21 @@
+# JobsPortal - Frontend
+
+This is frontend part of project as web app created to looking for job like on justjoinit
+or nofluffjobs websites.
+
+The stack of frontend part:
+
+- Next.js
+- NextUI
+- TailwindCSS
+
+It's developed with `yarn` commands and Visual Studio Code.
+
+Link for frontend demo:
+[Click here](https://jobsportal-app.vercel.app/)
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
