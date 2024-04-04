@@ -1,8 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
-from django.contrib.gis.db import models as gis_models
-from django.contrib.gis.geos import Point
 
 import requests
 import os
@@ -22,7 +20,7 @@ class Education(models.TextChoices):
     PHD = 'Phd'
 
 class Industry(models.TextChoices):
-    BUSINESS = 'business'
+    BUSINESS = 'Business'
     IT = 'Information Technology'
     BANKING = 'Banking'
     EDUCATION = 'Education/Training'
@@ -44,7 +42,7 @@ class Job(models.Model):
     description = models.TextField(null=True)
     email = models.EmailField(null=True)
     address = models.CharField(max_length=100, null=True)
-    job_type = models.CharField(
+    jobType = models.CharField(
         choices=JobType.choices,
         default=JobType.PERMANENT
     )
@@ -66,10 +64,11 @@ class Job(models.Model):
     ])
     positions = models.IntegerField(default=1)
     company = models.CharField(max_length=100, null=True)
-    point = gis_models.PointField(default=Point(0.0, 0.0))
-    last_date = models.DateTimeField(default=last_date)
+    lat = models.FloatField(default=0.0)
+    lng = models.FloatField(default=0.0)
+    lastDate = models.DateTimeField(default=last_date)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         url = 'https://geocode.search.hereapi.com/v1/geocode'
@@ -79,11 +78,12 @@ class Job(models.Model):
         position = items[0].get('position')
         lng = position.get('lng')
         lat = position.get('lat')
-        self.point = Point(lng, lat)
+        self.lng = float(lng)
+        self.lat = float(lat)
         super(Job, self).save(*args, **kwargs)
 
 class JobCandidate(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     resume = models.CharField(max_length=200)
-    applied_at = models.DateTimeField(auto_now_add=True)
+    appliedAt = models.DateTimeField(auto_now_add=True)

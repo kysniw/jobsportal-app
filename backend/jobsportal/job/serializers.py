@@ -4,16 +4,16 @@ from .models import Job, JobCandidate
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['id', 'title', 'description', 'email', 'address', 'job_type',
+        fields = ['id', 'title', 'description', 'email', 'address', 'jobType',
                     'education', 'industry', 'experience', 'salary', 'positions',
-                    'company', 'point', 'last_date', 'created_at']
+                    'company', 'lng', 'lat', 'lastDate', 'createdAt']
         read_only_fields = ['id']
 
 class JobCandidateSerializer(serializers.ModelSerializer):
     job = JobSerializer()
     class Meta:
         model = JobCandidate
-        fields = ['id', 'user', 'resume', 'applied_at', 'job']
+        fields = ['id', 'user', 'resume', 'appliedAt', 'job']
         read_only_fields = ['id']
 
 class JobStatsSerializer(serializers.Serializer):
